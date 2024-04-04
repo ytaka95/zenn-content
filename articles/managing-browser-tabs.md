@@ -5,6 +5,7 @@ type: "idea"
 topics: ["Chrome", "ブラウザ"]
 published: true
 published_at: 2023-12-04
+publication_name: "optimind"
 ---
 
 最近PCで使っているブラウザのタブを開きすぎてメモリ不足になってしまい、これは本格的にどうにかしないといけないと思い立ちました。どう「タブ開きすぎ問題」と向き合うかについて、私なりの考え方や運用方法をご紹介します。

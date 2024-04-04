@@ -5,6 +5,7 @@ type: "tech"
 topics: ["ChatGPT", "Slack", "AWS"]
 published: true
 published_at: 2023-12-06
+publication_name: "optimind"
 ---
 
 社内で「朝出社したら誰もいなくて、そこで初めて祝日だったことに気づいた」という話を聞きました。なんということでしょうか。せめて前日には気づかせてあげたいと思い、祝日を通知するSlack Botを作成しました。
