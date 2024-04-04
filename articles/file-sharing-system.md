@@ -44,7 +44,7 @@ published_at: 2022-12-20
 
 次に __パブリックな共有リンクを発行する__ という方法も良さそうです。普段使っているサービスからファイルを選択し、リンクを知っていれば誰でもアクセスできるという設定でリンクを発行すればよいので、なかなか使い勝手も良さそうです。
 
-:::note info
+:::message
 誰でもアクセスできるという設定は一見リスクが高いようにも見えますが、リンク自体が流出する可能性があるということはそもそも渡したデータが流出する可能性があることと同様のため、他の方法より明確にリスクが高いとは言えないでしょう。またリンクの無効化ができるという点でよりセキュアであるとも言えます。
 :::
 
@@ -85,7 +85,7 @@ published_at: 2022-12-20
 
 ただし以下のような状況ですのでそれについてはご承知おきください。
 
-- ダウンロードリンクのドメインは `cloudfront.net` のため、これをブロックしている環境からはアクセスできません
+- ダウンロードリンクのドメインは `cloudfront.net` のため、これをブロックしている環境からはアクセスできません（ただしカスタムドメインを使うことで改善可能です）
 - サンプルのコードは汎用性にこだわっていないのでそのままで簡単に使えるものではないです
 - Webフロント画面などはありません（本当は簡単なものでも作りたかったですが、いかんせん時間とスキルが足りませんでした。フロントエンドができる人は本当にすごい。）
 - アップロードしたファイルはシステムの構築者（S3バケットの所有者やCloudFrontに登録した秘密鍵の所有者）が中身を見ることができます。アップロードする人がそれを了承する必要があります。
@@ -103,16 +103,16 @@ S3バケットのCloudFormationテンプレートの例を記載します。
 :::details CloudFormationテンプレート
 
 ```yml:origin_bucket.yml
-OriginBucket: 
+OriginBucket:
   Type: "AWS::S3::Bucket"
-  Properties: 
-    PublicAccessBlockConfiguration: 
+  Properties:
+    PublicAccessBlockConfiguration:
       BlockPublicAcls: "true"
       BlockPublicPolicy: "true"
       IgnorePublicAcls: "true"
       RestrictPublicBuckets: "true"
-    OwnershipControls: 
-      Rules: 
+    OwnershipControls:
+      Rules:
       - ObjectOwnership: "BucketOwnerEnforced"
 ```
 
@@ -135,29 +135,29 @@ AWSリソースとしてはS3バケットへPutObjectする権限を持つロー
 :::details CloudFormationテンプレート
 
 ```yml:put_object_role.yml
-PutRole: 
+PutRole:
   Type: "AWS::IAM::Role"
-  Properties: 
-    AssumeRolePolicyDocument: 
+  Properties:
+    AssumeRolePolicyDocument:
       Version: "2012-10-17"
-      Statement: 
+      Statement:
       - Effect: "Allow"
-        Principal: 
-          AWS: 
+        Principal:
+          AWS:
           - Ref: "AWS::AccountId"
-        Action: 
+        Action:
         - "sts:AssumeRole"
-    Policies: 
+    Policies:
     -
-      PolicyName: 
+      PolicyName:
         Fn::Sub: "PutObject-${OriginBucket}"
-      PolicyDocument: 
+      PolicyDocument:
         Version: "2012-10-17"
-        Statement: 
+        Statement:
         - Effect: "Allow"
-          Action: 
+          Action:
           - "s3:PutObject"
-          Resource: 
+          Resource:
           - Fn::Sub: "arn:aws:s3:::${OriginBucket}/*"
 ```
 
