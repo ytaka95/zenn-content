@@ -5,6 +5,7 @@ type: "tech"
 topics: ["AWS", "CloudFront", "S3", "CloudFormation"]
 published: true
 published_at: 2022-12-20
+publication_name: "optimind"
 ---
 
 # はじめに
