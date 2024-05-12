@@ -80,7 +80,7 @@ docker push ${REPOSITORY_NAME}/echo:latest
 denied: Unauthenticated request. Unauthenticated requests do not have permission "artifactregistry.repositories.uploadArtifacts" on resource "projects/PROJECT/locations/LOCATION/repositories/REPOSITORY" (or it may not exist)
 ```
 
-sudoなしで実行できるようdockerグループに入れておくか、`sudo -u [ユーザー名]` として実行するようにしましょう。
+sudoなしで実行できるようdockerグループに入れておきましょう。
 
 ### Cloud Run ジョブの作成
 
@@ -92,8 +92,10 @@ https://cloud.google.com/run/docs/create-jobs?hl=ja#job
 
 ここでは `gcloud` コマンドで作ってみます（以下は東京リージョンでジョブを作成する例です）。
 
-```sh
-gcloud run jobs create echo --image asia-northeast1-docker.pkg.dev/PROJECT_ID/REPO_NAME/echo:latest --region asia-northeast1
+```text
+gcloud run jobs create echo \
+  --image asia-northeast1-docker.pkg.dev/PROJECT/REPOSITORY/echo:latest \
+  --region asia-northeast1
 ```
 
 ## Cloud Run ジョブの実行
@@ -102,7 +104,7 @@ gcloud run jobs create echo --image asia-northeast1-docker.pkg.dev/PROJECT_ID/RE
 
 ジョブの実行時には引数を与えることができます。一旦わかりやすく `gcloud` コマンドを例に出しますが以下のように実行できます。
 
-```sh
+```text
 # echoというジョブを "hello" という引数で実行する
 gcloud run jobs execute echo --args="hello"
 ```
@@ -113,7 +115,7 @@ gcloud run jobs execute echo --args="hello"
 
 Pythonで実行するにはまずライブラリをインストールします。
 
-```sh
+```text
 pip install google-cloud-run
 
 # timeoutを変更する場合は以下も必要
@@ -181,4 +183,4 @@ def run(job_name: str, args: list[str]):
 
 ## まとめ
 
-ユーザーリクエストを非同期に長時間実行するために、PyhtonからCloud Run ジョブを引数を渡して実行するコードを書きました。任意の引数や環境変数を与えられるのでリクエスト内容に応じた処理を柔軟に実行可能です。さらに Cloud Storage を介するなどすればファイルの受け渡しも可能です。Google Cloud 上での処理の可能性が広がります。
+ユーザーからのリクエストに応じた処理を非同期に長時間実行するために、PyhtonからCloud Run ジョブを実行するコードを書きました。任意の引数や環境変数を与えられるのでリクエスト内容に応じた処理を柔軟に実行可能です。
