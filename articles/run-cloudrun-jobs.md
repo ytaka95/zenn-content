@@ -131,6 +131,9 @@ pip install protobuf
 ```py
 from google.cloud import run_v2
 
+client = run_v2.JobsClient()
+
+
 def run(job_name: str, args: list[str]):
     request = run_v2.RunJobRequest(
         name=job_name,
@@ -160,6 +163,9 @@ if __name__ == "__main__":
 ```py
 from google.cloud import run_v2
 from google.protobuf.duration_pb2 import Duration
+
+client = run_v2.JobsClient()
+
 
 def run(job_name: str, args: list[str]):
     request = run_v2.RunJobRequest(
