@@ -2,7 +2,7 @@
 title: "Emacsの起動速度を上げてみる"
 emoji: "🚅"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
+topics: ["emacs"]
 published: true
 publication_name: optimind
 ---
